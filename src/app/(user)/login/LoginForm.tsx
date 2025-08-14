@@ -1,9 +1,11 @@
 'use client';
 import React , { useState } from 'react';
 import  { toast } from 'react-toastify';
+import {useRouter} from 'next/navigation';
 
 
 const LoginForm = () => {
+  const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const formSubmitHandler = (e: React.FormEvent) => {
@@ -14,7 +16,7 @@ const LoginForm = () => {
         console.log({email,password});
         // Here you can add your login logic, like calling an API
         // For now, we will just log the email and password
-        
+        router.replace('/');
     };
   return (
     <form onSubmit={formSubmitHandler} className="flex flex-col">

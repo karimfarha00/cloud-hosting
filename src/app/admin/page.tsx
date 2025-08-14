@@ -1,16 +1,18 @@
-import { Geist_Mono } from 'next/font/google';
+import AddArticlesForm from "./AddArticleForm";
 
-const geistMono = Geist_Mono({ subsets: ['latin'] });
 
 const AdminPage = () => {
-  throw new Error("This Error is from admin page");
   return (
-    <div className={geistMono.className}>
-        <h1>Admin Page</h1>
-        <p>Welcome to the Admin Page</p>
-        <p>Here you can manage the application settings and user accounts.</p>
+    <div className="fix-height flex items-center justify-center px-5 lg:px-20">
+      <div className="shadow p-4 bg-purple-200 rounded w-[800px]">
+        <h2 className="text-xl lg:text-2xl text-gray-700 font-semibold mb-4">
+          Add New Article
+        </h2>
+        <AddArticlesForm />
+
+      </div>
     </div>
   )
 }
 
-export default AdminPage
+export default AdminPage;
