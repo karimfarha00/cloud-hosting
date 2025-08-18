@@ -1,6 +1,6 @@
 export type Article={
-id:number;
-userId:number;
-title:string;
-body:string;
+    id:number;
+    userID:number;
+    title:string;
+    body:string;
 }
