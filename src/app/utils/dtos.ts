@@ -1,16 +1,17 @@
 
-
-
-export  interface CreateArticleDto{
+export interface CreateArticleDto{
     title:string;
-    body:string;
+    description:string;
 }
 
 
-
-
-
-export  interface UpdateArticleDto{
+export interface UpdateArticleDto{
     title?:string;
-    body?:string;
+    description?:string;
+}
+
+export interface RegisterUserDto{
+    Username:string;
+    email:string;
+    password:string;
 }

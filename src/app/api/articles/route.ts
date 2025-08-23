@@ -1,8 +1,15 @@
+
+
 import { CreateArticleSchema } from './../../utils/validationSchemas';
 import { NextRequest, NextResponse} from 'next/server';
-import {articles} from "../../utils/data";
-import { Article } from '@/app/utils/types';
+
 import {CreateArticleDto} from '../../utils/dtos';
+import {  Article } from '@prisma/client';
+import prisma from '../../utils/db';
+
+
+
+
 
 /**
  * @method GET 
@@ -14,9 +21,17 @@ import {CreateArticleDto} from '../../utils/dtos';
 
 
 
-export function GET(request: NextRequest){
-    console.log(request);
-    return NextResponse.json(articles , {status:200});
+
+
+export async function GET(request:NextRequest){
+   try{
+const articles=await prisma.article.findMany();
+    return NextResponse.json(articles,{status:200});
+   }catch(error){
+       console.error(error);
+       return NextResponse.json({message:"Internal Server Error"},
+        {status:500});
+   }
 
 }
 
@@ -28,37 +43,33 @@ export function GET(request: NextRequest){
  * @access public
  *  
  */
+
+
 export async function POST(request:NextRequest){
-    const body= (await request.json()) as CreateArticleDto;
-     
-    // if(body.title === "" || body.title.length<2){
-    //     return NextResponse.json({message:"Title is required and should be at least 2 characters long"}, {status:400});
-    // }
+   try{
+ const body =(await request.json()) as CreateArticleDto;
 
-
-const validation= CreateArticleSchema.safeParse(body);
-if(!validation.success){
-    return NextResponse.json({message:validation.error.issues[0].message},{status:400});
-}
-
-
-    const newArticle: Article={
-        title:body.title,
-        body:body.body,
-        id:articles.length +1,
-        userID:200
+    //here i want to make a validation notice how we build it 
+    const validation =CreateArticleSchema.safeParse(body);
+    if(!validation.success){
+        return NextResponse.json({message:validation.error.issues[0].message},{status:400});
     }
-    articles.push(newArticle);
-    return NextResponse.json(newArticle,{status:201});
+const newArticle :Article = await prisma.article.create({
+    data:{
+        title:body.title,
+        description:body.description,
+       }
+});
+
+
+return NextResponse.json(newArticle,{status:201});
+   } catch(error){
+       console.error(error);
+       return NextResponse.json({message:"Internal Server Error"},
+        {status:500});
+   }
 }
 
 
 
-/**
- * @method POST
- * @route http://localhost/3000/api/articles or ~/api/articles
- * @description Create a new Article
- * @access public
- *  
- */
 

@@ -1,20 +1,19 @@
 import {Article} from "./types";
 
-export const articles: Article[] = [
+
+ export const articles: Article[]=[
     {
         id:1,
         userID:101,
         title:"karim",
         body:"karim is a powerfull programming language"
     },
-    
     {
         id:2,
         userID:102,
         title:"farah",
         body:"farah is a powerfull programming language"
     },
-
     {
         id:3,
         userID:103,
@@ -27,4 +26,4 @@ export const articles: Article[] = [
         title:"mama",
         body:"mama is a powerfull programming language"
     },
-]
+ ]
