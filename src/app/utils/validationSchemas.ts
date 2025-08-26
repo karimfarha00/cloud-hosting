@@ -1,5 +1,6 @@
 
 
+
 import {z} from 'zod';
 
 export const CreateArticleSchema = z.object({
@@ -29,3 +30,18 @@ export const RegisterUserSchema = z.object({
         .min(6, "Password should be at least 6 characters long")
         .max(100, "Password should not exceed 100 characters"),
 });
+
+
+//login Schema
+export const LoginUserSchema = z.object({
+    email: z.string()
+    .nonempty("Email is required")
+    .min(3, "Email should be at least 3 characters long")
+    .max(100, "Email should not exceed 100 characters")
+    .email(),
+    password: z.string()
+        .nonempty("Password is required")
+        .min(6, "Password should be at least 6 characters long")
+        .max(100, "Password should not exceed 100 characters"),
+});
+

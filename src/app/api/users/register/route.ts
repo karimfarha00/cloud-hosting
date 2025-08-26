@@ -3,6 +3,8 @@ import type { RegisterUserDto } from '@/app/utils/dtos'; // Adjust the import pa
 import { RegisterUserSchema } from '@/app/utils/validationSchemas';
 import prisma from '@/app/utils/db';
 import bcrypt from 'bcryptjs';
+import { generateJWT } from '@/app/utils/generateToken';
+import { JWTPayload } from '@/app/utils/types';
 /**
  * @method POST
  * @route http://localhost:3002/api/users/register
@@ -53,8 +55,14 @@ select:{
 
 
 });
-//@Todo -> generate JWT Token
-const token = null;
+
+const jwtPayload:JWTPayload={
+    id:newUser.id,
+    isAdmin:newUser.isAdmin,
+    username:newUser.Username
+}
+
+const token = generateJWT(jwtPayload);
 return NextResponse.json({ ...newUser, token },
      { status: 201 });
 
