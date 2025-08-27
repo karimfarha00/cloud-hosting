@@ -32,9 +32,7 @@ return NextResponse.json({error:'User not found'},{status:404});
 
 
 const authToken=request.headers.get('authToken') as string;
-if(!authToken){
-return NextResponse.json({error:'Not token provided,access denied'},{status:401});//401 UnAuthorized
-}
+
 //this line of code open the encryption of this user
 const userFromToken= jwt.verify(authToken,process.env.JWT_SECRET as string) as JWTPayload; 
 
