@@ -12,6 +12,9 @@ const LoginForm = () => {
         e.preventDefault();
         if(email ==="") return toast.error("Email is required");
         if(password ==="") return toast.error("Password is required");
+       
+      
+
         // You can add more validation here if needed
         console.log({email,password});
         // Here you can add your login logic, like calling an API

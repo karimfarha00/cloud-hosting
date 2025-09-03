@@ -3,8 +3,11 @@ import {LoginUserDto} from '../../../utils/dtos';
 import { LoginUserSchema } from '@/app/utils/validationSchemas';
 import prisma from '@/app/utils/db';
 import bcrypt from 'bcryptjs';
-import {generateJWT} from '../../../utils/generateToken';
-import { JWTPayload } from '@/app/utils/types';
+import { setCookie } from '@/app/utils/generateToken';
+
+
+
+
 /**
  * @method POST
  * @route http://localhost:3002/api/users/login
@@ -49,13 +52,20 @@ if(!isPasswordMatch){
 //now after check and the email and passowrd correct the user login 
 //This code make and ID for every User in server to know each one from ID
 
-const jwtPayload:JWTPayload={
-    id:user.id,
+
+
+
+const cookie=setCookie({
+    id:user.id, 
     isAdmin:user.isAdmin,
-    username:user.Username
-}
-const token = generateJWT(jwtPayload);
-return NextResponse.json({ message: "Authenticated", token }, { status: 200 });
+    username:user.Username});
+
+return NextResponse.json(
+    { message: "Authenticated" },
+     {
+         status: 200,
+         headers:{"Set-Cookie":cookie}
+        });
 
        
     }catch(error){

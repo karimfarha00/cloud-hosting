@@ -1,10 +1,13 @@
+
 import {NextRequest,NextResponse} from 'next/server';
 import type { RegisterUserDto } from '@/app/utils/dtos'; // Adjust the import path as needed
 import { RegisterUserSchema } from '@/app/utils/validationSchemas';
 import prisma from '@/app/utils/db';
 import bcrypt from 'bcryptjs';
-import { generateJWT } from '@/app/utils/generateToken';
-import { JWTPayload } from '@/app/utils/types';
+// import { setCookie} from '@/app/utils/generateToken';
+import { setCookie} from '@/app/utils/generateToken';
+
+
 /**
  * @method POST
  * @route http://localhost:3002/api/users/register
@@ -56,15 +59,19 @@ select:{
 
 });
 
-const jwtPayload:JWTPayload={
+
+
+const cookie=setCookie({
     id:newUser.id,
     isAdmin:newUser.isAdmin,
     username:newUser.Username
-}
+});
 
-const token = generateJWT(jwtPayload);
-return NextResponse.json({ ...newUser, token },
-     { status: 201 });
+
+return NextResponse.json({ ...newUser, message:"Registered & Authenticated" ,cookie},
+     { status: 201,
+       headers: { "Set-Cookie": cookie }
+     });
 
 } catch (error) {
     console.log(error);
@@ -90,4 +97,8 @@ return NextResponse.json({ ...newUser, token },
 
 
 
+
+// function generateJWT(jwtPayload: any, JWTPayload: any) {
+//     throw new Error('Function not implemented.');
+// }
 
